@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from './axios'
 import './row.css'
 const base_url="https://image.tmdb.org/t/p/original/"
-function Row({title, fetchUrl}) {
+function Row({title, fetchUrl, isLargeRow}) {
   const [movies, setMovies]=useState([])
 // console.log(axios)
   //  A snippet of code which run base a speccific condifion/variable
@@ -10,7 +10,7 @@ function Row({title, fetchUrl}) {
     //if [], run once when a row loads and dont run again
     async function fetchData(){
       const requests=await axios.get(fetchUrl)
-      console.log(requests)
+      // console.log(requests)
       setMovies(requests.data.results)
       return requests
     }
@@ -28,8 +28,8 @@ function Row({title, fetchUrl}) {
               
               <img
                 key={movies.id}
-                className='row__poster'
-                src={`${base_url}${movies.poster_path}`} 
+                className={`row__poster ${isLargeRow && "row__posterLarge"}`}
+                src={`${base_url}${isLargeRow ? movies.poster_path  : movies.backdrop_path}`} 
                 alt={movies.name} 
               />
             )
